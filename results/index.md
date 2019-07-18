@@ -1,4 +1,6 @@
-# Panorama-Stitching
+# 袁嘉宏(Jimmy Yuan) <span style="color:red">103011228</span>
+
+# Project 2 / Panorama Stitching
 
 ## Overview
 The project is related to create a panorama stitching image based on multiple images. In order to create the final result, first of all, we captured the SIFT points and the corresponding descriptor by using vlfeat, trying to match the descriptor of different images based on the Euclidean distance. Then we are going to figure out the affine transformation matrix of these two images. Instead of feeding all our SIFT keypoints to the transformation module, we first use RANSAC(RANdom SAmple Consensus) to select the inliers. Last, we use the inliers to calculate the affine transformation matrix, stitiching the multiple image to reach the final result.
@@ -19,7 +21,7 @@ L2_norm = np.sqrt(np.sum(error*error, axis=1))
 idx = np.argsort(L2_norm)
 
 if L2_norm[idx[0]] < THRESH*L2_norm[idx[1]]:
-match.append([i, idx[0]])
+    match.append([i, idx[0]])
 ```
 
 ### 3. Fitting the Transformation Matrix
@@ -51,7 +53,7 @@ delta = ComputeError(eta, p1, p2, gamma)
 epsilon = delta <= maxInlierError
 
 if np.sum(epsilon) + alpha >= goodFitThresh:
-zeta = np.concatenate([beta, gamma[epsilon, :]], axis=0)
+    zeta = np.concatenate([beta, gamma[epsilon, :]], axis=0)
 ```
 
 > Before calculating the transformed keypoints, we first convert them into homogeneous coordinates as usual. Here we use Euclidean distance to measure the error of points, comparing the error to the threshold, and count how many of them belonging to the inlier. We can also run `TransformationTester.py` to evaluate our function.
@@ -85,17 +87,17 @@ Pano = Pano[min(boundMask[0]):max(boundMask[0]),min(boundMask[1]):max(boundMask[
 
 ```python3
 if currentFrameIndex < refFrameIndex:
-T = np.eye(3)
-while currentFrameIndex < refFrameIndex:
-T = np.dot(i_To_iPlusOne_Transform[currentFrameIndex], T)
-currentFrameIndex += 1
+    T = np.eye(3)
+        while currentFrameIndex < refFrameIndex:
+            T = np.dot(i_To_iPlusOne_Transform[currentFrameIndex], T)
+            currentFrameIndex += 1
 else:
-T = np.eye(3)
-while currentFrameIndex > refFrameIndex:
-# Compute the (Moore-Penrose) pseudo-inverse of a matrix
-inverse = np.linalg.pinv(i_To_iPlusOne_Transform[currentFrameIndex-1])
-T = np.dot(inverse, T)
-currentFrameIndex -= 1
+    T = np.eye(3)
+        while currentFrameIndex > refFrameIndex:
+            # Compute the (Moore-Penrose) pseudo-inverse of a matrix
+            inverse = np.linalg.pinv(i_To_iPlusOne_Transform[currentFrameIndex-1])
+            T = np.dot(inverse, T)
+            currentFrameIndex -= 1
 ```
 
 > Finally, we can run `StitchTester.py` to test our project.
@@ -117,59 +119,56 @@ I notice that threshold plays an important role, thus I have tried with several 
 
 | uttower1 | uttower2 |
 | :------: | :------: | 
-| <img src="data/uttower1.jpg" width="400"/> | <img src="data/uttower2.jpg" width="400"/> |
+| <img src="../data/uttower1.jpg" width="400"/> | <img src="../data/uttower2.jpg" width="400"/> |
 
 | Threshold = 0.19 | Threshold = 0.18|
 | :--------------: | :-------------: | 
-| <img src="results/uttower_pano_0.19.jpg" width="400"/> | <img src="results/uttower_pano_0.18.jpg" width="400"/> | 
+| <img src="../results/uttower_pano_0.19.jpg" width="400"/> | <img src="../results/uttower_pano_0.18.jpg" width="400"/> | 
 
 
 * Hanging_pano <br>
 
 | Hanging1 | Hanging2 |
 | :------: | :------: | 
-| <img src="data/Hanging1.png" width="400"/> | <img src="data/Hanging2.png" length="400"/> |
+| <img src="../data/Hanging1.png" width="400"/> | <img src="../data/Hanging2.png" length="400"/> |
 
 | Threshold = 0.2 | Threshold = 0.7 |
 | :-------------: | :-------------: | 
-| <img src="results/Hanging_pano_0.2.png" width="400"/> | <img src="results/Hanging_pano_0.7.png" width="400"/> | 
+| <img src="../results/Hanging_pano_0.2.png" width="400"/> | <img src="../results/Hanging_pano_0.7.png" width="400"/> | 
 
 
 * MelakwaLake_pano <br>
 
 | MelakwaLake1 | MelakwaLake2 |
 | :----------: | :----------: | 
-| <img src="data/MelakwaLake1.png" length="400"/> | <img src="data/MelakwaLake2.png" length="400"/> |
+| <img src="../data/MelakwaLake1.png" length="400"/> | <img src="../data/MelakwaLake2.png" length="400"/> |
 
 | Threshold = 0.5 | Threshold = 0.87 |
 | :-------------: | :--------------: | 
-| <img src="results/MelakwaLake_pano_0.5_200.png" length="400"/> | <img src="results/MelakwaLake_pano_0.87.png" length="400"/> | 
+| <img src="../results/MelakwaLake_pano_0.5_200.png" length="400"/> | <img src="../results/MelakwaLake_pano_0.87.png" length="400"/> | 
 
 
 * yosemite_pano <br>
 
 | yosemite1 | yosemite2 | yosemite3 | yosemite4 |
 | :-------: | :-------: | :-------: | :-------: | 
-| <img src="data/yosemite1.jpg" width="200"> | <img src="data/yosemite2.jpg" width="200"> | <img src="data/yosemite3.jpg" width="200"> | <img src="data/yosemite4.jpg" width="200"> |
+| <img src="../data/yosemite1.jpg" width="200"> | <img src="../data/yosemite2.jpg" width="200"> | <img src="../data/yosemite3.jpg" width="200"> | <img src="../data/yosemite4.jpg" width="200"> |
 
 | Threshold = 0.7 |
 | :-------------: |
-| <img src="results/yosemite_0.7.jpg" width="850"/> |
+| <img src="../results/yosemite_0.7.jpg" width="850"/> |
 
 
 * Rainier_pano <br>
 
 | Rainier1 | Rainier2 | Rainier3 |
 | :------: | :------: | :------: | 
-| <img src="data/Rainier1.png" width="250"> | <img src="data/Rainier2.png" width="250"> | <img src="data/Rainier3.png" width="250"> |
+| <img src="../data/Rainier1.png" width="250"> | <img src="../data/Rainier2.png" width="250"> | <img src="../data/Rainier3.png" width="250"> |
 
 | Rainier4 | Rainier5 | Rainier6 |
 | :------: | :------: | :------: | 
-| <img src="data/Rainier4.png" width="250"> | <img src="data/Rainier5.png" width="250"> | <img src="data/Rainier6.png" width="250"> |
+| <img src="../data/Rainier4.png" width="250"> | <img src="../data/Rainier5.png" width="250"> | <img src="../data/Rainier6.png" width="250"> |
 
 | Threshold = 0.5 |
 | :-------------: |
-| <img src="results/pano_0.5.png" width="850"> |
-
-## Credits
-This project is modified by Chia-Hung Yuan based on Min Sun, James Hays and Derek Hoiem's previous developed projects 
+| <img src="../results/pano_0.5.png" width="850"> |
